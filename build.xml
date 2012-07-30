@@ -1,0 +1,40 @@
+<project name="CustomBolts" default="dist" basedir=".">
+	<property name="src" location="src/main/java"/>
+	<property name="lib" location="lib"/>
+	<property name="build" location="build"/>
+	<property name="dist"  location="dist"/>
+
+	<target name="init">
+		<tstamp/>
+		<mkdir dir="${build}"/>
+	</target>
+
+	<target name="compile" depends="init"
+        description="compile the source " >
+		<javac srcdir="${src}" destdir="${build}" includeantruntime="false">
+			<classpath>
+				<pathelement location="${lib}/asm-all-4.0.jar"/>
+				<pathelement location="${lib}/ComputerCraft"/>
+				<pathelement location="${lib}/craftbukkit-1.2.5-R4.1-MCPC-SNAPSHOT.jar"/>
+                <pathelement location="${lib}/industrialcraft2-1.97-mcpc1.2.5-r1.zip"/>
+                <pathelement location="${lib}/mod_IC2NuclearControl-1.1.10b-mcpc-r1.zip"/>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="dist" depends="compile">
+		<mkdir dir="${dist}"/>
+		<jar jarfile="${dist}/CustomBolts.jar" basedir="${build}">
+		    <zipgroupfileset dir="${lib}/" includes="asm-all-4.0.jar" excludes=""/>
+
+		    <manifest>
+		        <attribute name="Premain-Class" value="com.sk89q.custombolts.CodeInjector"/>
+		    </manifest>
+		</jar>
+	</target>
+
+	<target name="clean">
+		<delete dir="${build}" />
+		<delete dir="${dist}"/>
+	</target>
+</project>
